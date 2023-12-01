@@ -35,25 +35,35 @@ class BenevolentModel extends Model {
     const date = new Date();
     this.updated_at = date;
   }
-
   static async buyGift(data) {
-    const result = await BenevolentModel.query().findOne({ child_id: data.child_id })
-    if (!result) {
+    const result = await BenevolentModel.query().findOne({ child_id: data.child_id });
+    const dream = await pg('dreams').where('id', '=', data.child_id).first();
+
+    if (!result && dream) {
       const updatedData = await pg('dreams').update({ is_active: true }).where('id', '=', data.child_id);
       return BenevolentModel.query().insert(data).returning("*");
-
+    } else if (!dream) {
+      throw new InputValidationError('The dream is not found');
+    } else {
+      throw new InputValidationError('The dream has already been taken');
     }
-    throw new InputValidationError('The dream has already been taken');
   }
+
 
   static async takeLetter(data) {
-    const result = await BenevolentModel.query().findOne({ child_id: data.child_id })
-    if (!result) {
+    const result = await BenevolentModel.query().findOne({ child_id: data.child_id });
+    const dream = await pg('dreams').where('id', '=', data.child_id).first();
+
+    if (!result && dream) {
       const updatedData = await pg('dreams').update({ is_active: true }).where('id', '=', data.child_id);
       return BenevolentModel.query().insert(data).returning("*");
+    } else if (!dream) {
+      throw new InputValidationError('The dream is not found');
+    } else {
+      throw new InputValidationError('The dream has already been taken');
     }
-    throw new InputValidationError('The dream has already been taken');
   }
+
 
   static getBenevolent(child_id) {
     return BenevolentModel.query().select('*').where('child_id', '=', child_id).returning('*');
