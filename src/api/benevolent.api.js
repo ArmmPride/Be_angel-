@@ -8,6 +8,10 @@ router.post("/buyGift",
 BenevolentValidationMiddleware.validateAddArgs,
 BenevolentController.buyGift);
 
+router.delete("/delGift/:id/:child_id", 
+// BenevolentValidationMiddleware.validateAddArgs,
+BenevolentController.delGift);
+
 router.post("/takeLetter", BenevolentValidationMiddleware.validateAddArgs,
 BenevolentController.takeLetter);
 

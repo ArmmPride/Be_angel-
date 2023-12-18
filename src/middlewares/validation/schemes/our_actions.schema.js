@@ -6,13 +6,13 @@ const ActionSchema = {
     body: Joi.object({
       description: Joi.string(),
       photos: Joi.array().items(Joi.string()).required(),
-      year: Joi.number().integer().required(),
+      year: Joi.string().required(),
     }),
   },
 
   getSchema: {
     params: Joi.object({
-      year: Joi.number().integer().required(),
+      year: Joi.string().required(),
     }),
   },
   
@@ -23,7 +23,7 @@ const ActionSchema = {
     body: Joi.object({
       description: Joi.string(),
       photos: Joi.array().items(Joi.string()),
-      year: Joi.number().integer(),
+      year: Joi.string(),
     }),
   }
  

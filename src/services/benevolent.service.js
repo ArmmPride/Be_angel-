@@ -1,5 +1,7 @@
 import { BenevolentModel } from '../models';
 import nodemailer from 'nodemailer';
+const dotenv = require('dotenv');
+dotenv.config()
 
 export default class BenevolentService{
 
@@ -42,7 +44,11 @@ export default class BenevolentService{
 
     static buyGift(dreams){
         return BenevolentModel.buyGift(dreams);
-    }     
+    }   
+    
+    static delGift(id,child_id){
+      return BenevolentModel.delGift(id,child_id);
+  }     
     static takeLetter(dreams){
         return BenevolentModel.takeLetter(dreams);
     }  

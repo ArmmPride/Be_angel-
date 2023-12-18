@@ -3,7 +3,7 @@ require('dotenv').config();
 const config = {
   ADMIN_LOGIN:process.env.ADMIN_LOGIN,
   ADMIN_PASSWORD: process.env.ADMIN_PASSWORD,
-  PORT: process.env.PORT || 3006,
+  PORT: process.env.PORT || 9999,
   UPLOAD_IMAGES: 'upload',
   HOST_OF_SERVER: process.env.HOST_OF_SERVER,
   ONE_WAY_HASH_SECRET: process.env.ONE_WAY_HASH_SECRET,

@@ -38,7 +38,7 @@ class BenevolentModel extends Model {
   static async buyGift(data) {
     const result = await BenevolentModel.query().findOne({ child_id: data.child_id });
     const dream = await pg('dreams').where('id', '=', data.child_id).first();
-
+    console.log(dream,'drrrrrrrrrr');
     if (!result && dream) {
       const updatedData = await pg('dreams').update({ is_active: true }).where('id', '=', data.child_id);
       return BenevolentModel.query().insert(data).returning("*");
@@ -68,6 +68,29 @@ class BenevolentModel extends Model {
   static getBenevolent(child_id) {
     return BenevolentModel.query().select('*').where('child_id', '=', child_id).returning('*');
   }
+
+
+  static async delGift(id, child_id) {
+    // Update 'is_active' field in the database
+    const updateResult = await pg('dreams')
+      .where('id', '=', child_id)
+      .update({ is_active: false });
+  
+    // Check if the update was successful (number of affected rows greater than 0)
+    if (updateResult > 0) {
+      // Fetch the updated data based on 'id'
+      const updatedData = await BenevolentModel.query()
+        .select('*')
+        .where('id', '=', id)
+        .del()
+  
+      return updatedData;
+    } else {
+      // Handle the case where the update was not successful (e.g., child_id not found)
+      return null;
+    }
+  }
+  
 
 
 }
